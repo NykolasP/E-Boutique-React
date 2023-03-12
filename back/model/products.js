@@ -27,6 +27,15 @@ function getProductById(id) {
     })
 }
 
+function getProductByReference(reference) {
+    return new Promise((result, reject) => {
+        db.all("SELECT * FROM products WHERE reference=?",[reference], (err, rows) => {
+            if (err) reject(err)
+            else result(rows[0])
+        });
+    })
+}
+
 function getCategoryByIdProduct(id_product) {
     return new Promise((result, reject) => {
         db.all("SELECT * FROM product_category pc WHERE id_product=?",[id_product], (err, rows) => {
@@ -38,7 +47,7 @@ function getCategoryByIdProduct(id_product) {
 
 function addProduct(reference, name, price, resume, description) {
     return new Promise((result, reject) => {
-        db.run("INSERT INTO category (reference, name, price, resume, description)  VALUES(?,?,?,?,?) ", [reference, name, price, resume, description], (err, data) => {
+        db.run("INSERT INTO products (reference, name, price, resume, description)  VALUES(?,?,?,?,?) ", [reference, name, price, resume, description], (err, data) => {
             if (err) reject(err)
             else result(data)
         })
@@ -47,7 +56,7 @@ function addProduct(reference, name, price, resume, description) {
 
 function deleteProductById(id) {
     return new Promise((result, reject) => {
-        db.get("DELETE FROM product WHERE id=?",[id], (err, rows) => {
+        db.get("DELETE FROM products WHERE id=?",[id], (err, rows) => {
             if (err) reject(err)
             else result(rows)
         });
@@ -60,5 +69,6 @@ module.exports = {
     getProductById,
     addProduct,
     deleteProductById,
-    getCategoryByIdProduct
+    getCategoryByIdProduct,
+    getProductByReference
 }

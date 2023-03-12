@@ -6,4 +6,5 @@ export function Logout() {
     localStorage.removeItem('token')
     //window.location.reload()
     navigate("/");
+    navigate(0);
 }

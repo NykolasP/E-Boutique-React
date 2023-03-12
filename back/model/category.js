@@ -27,6 +27,15 @@ function addCategory(name,description,id_parent) {
     })
 }
 
+function addCategoryProduct(id_product,id_category) {
+    return new Promise((result, reject) => {
+        db.run("INSERT INTO product_category (id_product,id_category)  VALUES(?,?) ", [id_product,id_category], (err, data) => {
+            if (err) reject(err)
+            else result(data)
+        })
+    })
+}
+
 function deleteCategoryById(id) {
     return new Promise((result, reject) => {
         db.get("DELETE FROM category WHERE id=?",[id], (err, rows) => {
@@ -40,5 +49,6 @@ module.exports = {
     getAllCategory,
     getCategoryById,
     addCategory,
-    deleteCategoryById
+    deleteCategoryById,
+    addCategoryProduct
 }

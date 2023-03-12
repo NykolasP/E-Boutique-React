@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 export function ProductsA() {
     const [productsData, setProductsData] = useState(null);
+
     useEffect(() => {
         fetch("http://localhost:3001/api/product/productsA", {
           headers: {
@@ -12,9 +13,8 @@ export function ProductsA() {
         .then( response => response.json())
         .then( data => {
             setProductsData(data)
-            console.log(data)
         })
-    }, [])
+    }, []);
     return (
         <>
         <div style={{margin: "0px 5px"}}>
@@ -36,8 +36,8 @@ export function ProductsA() {
                         <td>{elem.reference}</td>
                         <td>{elem.name}</td>
                         <td>{elem.price}€</td>
-                        <td>Edit</td>
-                        <td>Delete</td>
+                        <td><Link to={`/admin/product/edit/${elem.id}`}>Edit</Link></td>
+                        <td><Link to={`/admin/product/delete/${elem.id}`}>Delete</Link></td>
                     </tr>
                     )}
                 </tbody>

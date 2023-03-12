@@ -11,6 +11,7 @@ import { Products } from './pages/products';
 import { Category } from './pages/category';
 import { ProductsA } from './pages/productsA';
 import { ProductA } from './pages/productA';
+import { DeleteProduct } from './components/deleteproduct';
 
 
 
@@ -41,6 +42,7 @@ function App() {
             <Route path="/admin" element={<Home />}></Route>
             <Route path="/admin/users" element={<UsersA />}></Route>
             <Route path="/admin/products" element={<ProductsA />}></Route>
+            <Route path="/admin/product/delete/:id" element={<DeleteProduct />}></Route>
             <Route path="/admin/product/productadd" element={<ProductA />}></Route>
           </Routes>
         </div>

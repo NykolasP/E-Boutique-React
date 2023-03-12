@@ -54,11 +54,21 @@ function addUser(surname,name,email,password) {
     })
 }
 
+function updateUser(surname,name,email,password,id) {
+    return new Promise((result, reject) => {
+        db.run("UPDATE users SET surname=?, name=?, email=?, password=? WHERE id=? ", [surname,name,email,password,id], (err, data) => {
+            if (err) reject(err)
+            else result(data)
+        })
+    })
+}
+
 module.exports = {
     getAllUsers,
     getUserByEmail,
     deleteUserByEmail,
     addUser,
     addRoleToUser,
-    getUserRoleByEmail
+    getUserRoleByEmail,
+    updateUser
 }

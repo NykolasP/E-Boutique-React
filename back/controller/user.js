@@ -1,4 +1,4 @@
-const { getAllUsers, getUserByEmail, getUserRoleByEmail, addRoleToUser, deleteUserByEmail } = require('../model/users')
+const { getAllUsers, getUserByEmail, getUserRoleByEmail, addRoleToUser, deleteUserByEmail, updateUser } = require('../model/users')
 const UserC = require("../classes/user")
 const jwt = require('jsonwebtoken');
 
@@ -30,6 +30,15 @@ async function addUserC(req, res) {
     res.json(user)
 }
 
+async function updateUserC(req, res) {
+    if (!req.body.email || !req.body.password) {
+        res.status(400).json({ mess: "Champs obligatoires : email et pass" })
+        return
+    }
+    const user = updateUser(req.body.surname,req.body.name,req.body.email,req.body.password,req.user.id);
+    res.json(user)
+}
+
 async function connectUser(req, res) {
     if (!req.body.email || !req.body.password) {
         res.status(400).json({ mess: "Erreur : email et password" })
@@ -48,4 +57,4 @@ async function connectUser(req, res) {
     res.json({ token, roles })
 }
 
-module.exports = { getAllUser,connectUser, addUserC, getUser, deleteUser }
+module.exports = { getAllUser,connectUser, addUserC, getUser, deleteUser, updateUserC }

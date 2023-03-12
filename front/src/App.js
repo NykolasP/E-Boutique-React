@@ -63,7 +63,7 @@ function App() {
             <Route path="connect" element={<Connexion />}></Route>
             <Route path="profil" element={<User />}></Route>
             <Route path="profil/delete" element={<UserDelete />}></Route>
-            <Route path="profil/edit/:id" element={<UserEdit />}></Route>
+            <Route path="profil/edit" element={<UserEdit />}></Route>
             <Route path="register" element={<Register />}></Route>
             <Route path="logout" render= {(props)=>window.location.reload()} element={<Logout />}></Route>
           </Routes>

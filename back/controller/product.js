@@ -1,10 +1,15 @@
-const { getAllProducts, addProduct,getAllProductsByCategory,getProductByReference,deleteProductById } = require('../model/products')
+const { getAllProducts, addProduct,getAllProductsByCategory,getProductByReference,deleteProductById,getProductById } = require('../model/products')
 const { getAllCategory,getCategoryById,addCategory,deleteCategoryById,addCategoryProduct } = require('../model/category')
 const ProductC = require("../classes/product")
 
 async function getAllProductsC(req, res) {
     const products = await getAllProducts();
     res.json(products)
+}
+
+async function getProductByIdC(req, res) {
+    const product = await getProductById(req.params.id);
+    res.json(product)
 }
 
 async function addProductC(req, res) {
@@ -26,4 +31,4 @@ async function deleteProductC(req, res) {
    res.json(deleteP)
 }
 
-module.exports = { getAllProductsC, addProductC,deleteProductC }
+module.exports = { getAllProductsC, addProductC, deleteProductC, getProductByIdC }

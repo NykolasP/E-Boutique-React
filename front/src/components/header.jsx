@@ -23,7 +23,7 @@ export function Header({userClient}) {
     const pages = [["/",'Home',0],["/products",'Produits',1],["/category",'Categories',2]];
     let settings = [["/connect",'Se Connecter',0],["/register","S'inscrire",1]];
     if (userClient) {
-      settings = [["/",'Home',0],["/logout",'Déconnection',1]]
+      settings = [["/",'Home',0],["/profil",'Profil',1],["/logout",'Déconnection',2]]
     }
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);

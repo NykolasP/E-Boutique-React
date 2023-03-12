@@ -8,8 +8,12 @@ function auth(req, res, next) {
     try {
         const user = jwt.verify(token, '4561gfd');
         req.user = user
-        console.log(req.user)
-        next()
+
+        req.user.roles.forEach(role => {
+            if (role.id_role == 2) {
+                next()
+            }
+        });
     }
     catch {
         res.status(403).json({ mess: 'erreur de token' })

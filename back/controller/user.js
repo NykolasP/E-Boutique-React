@@ -1,10 +1,20 @@
-const { getAllUsers, getUserByEmail, getUserRoleByEmail, addRoleToUser } = require('../model/users')
+const { getAllUsers, getUserByEmail, getUserRoleByEmail, addRoleToUser, deleteUserByEmail } = require('../model/users')
 const UserC = require("../classes/user")
 const jwt = require('jsonwebtoken');
 
 async function getAllUser(req, res) {
     const users = await getAllUsers();
     res.json(users)
+}
+
+async function getUser(req, res) {
+    const user = await getUserByEmail(req.user.email);
+    res.json(user)
+}
+
+async function deleteUser(req, res) {
+    const user = await deleteUserByEmail(req.user.email);
+    res.json("Done")
 }
 
 async function addUserC(req, res) {
@@ -22,7 +32,7 @@ async function addUserC(req, res) {
 
 async function connectUser(req, res) {
     if (!req.body.email || !req.body.password) {
-        res.status(400).json({ mess: "Champs obligatoires : email et password" })
+        res.status(400).json({ mess: "Erreur : email et password" })
         return
     }
     const user = await getUserByEmail(req.body.email)
@@ -38,4 +48,4 @@ async function connectUser(req, res) {
     res.json({ token, roles })
 }
 
-module.exports = { getAllUser,connectUser, addUserC }
+module.exports = { getAllUser,connectUser, addUserC, getUser, deleteUser }

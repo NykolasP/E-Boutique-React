@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-
+import React, {useState} from 'react';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,7 +16,7 @@ const theme = createTheme();
 
 export function Formconnection() {
     const navigate = useNavigate();
-
+    const [errorData, setErrorData] = useState(null);
 
     function submitForm(e) {
         e.preventDefault()
@@ -33,12 +33,16 @@ export function Formconnection() {
         fetch('http://localhost:3001/api/user/connect', requestOptions)
           .then(response => response.json())
           .then(dataBack => {
-            localStorage.setItem('token', dataBack.token)
-            localStorage.setItem('roles', JSON.stringify(dataBack.roles))
-            setTimeout(() => {
-              navigate("/");
-              navigate(0);
-            },1000)
+            if(dataBack.mess){
+              setErrorData(dataBack.mess)
+            } else {
+              localStorage.setItem('token', dataBack.token)
+              localStorage.setItem('roles', JSON.stringify(dataBack.roles))
+              setTimeout(() => {
+                navigate("/");
+                navigate(0);
+              },1000)
+            }
           })
           .catch(error => {
             console.error(error);
@@ -63,6 +67,10 @@ export function Formconnection() {
           <Typography component="h1" variant="h5">
             Se Connecter
           </Typography>
+          {errorData && <Typography component="h3" variant="h5">
+            {errorData}
+          </Typography>
+          }
           <Box
             component="form"
             onSubmit={submitForm}

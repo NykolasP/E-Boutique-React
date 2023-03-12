@@ -1,0 +1,41 @@
+const { getAllUsers, getUserByEmail, getUserRoleByEmail, addRoleToUser } = require('../model/users')
+const UserC = require("../classes/user")
+const jwt = require('jsonwebtoken');
+
+async function getAllUser(req, res) {
+    const users = await getAllUsers();
+    res.json(users)
+}
+
+async function addUserC(req, res) {
+    if (!req.body.email || !req.body.password) {
+        res.status(400).json({ mess: "Champs obligatoires : email et pass" })
+        return
+    }
+    const user = new UserC(req.body.surname,req.body.name,req.body.email,req.body.password);
+    user.addUserBD();
+    getUserByEmail(req.body.email).then((data)=> {
+        addRoleToUser(data.id,2)
+    })
+    res.json(user)
+}
+
+async function connectUser(req, res) {
+    if (!req.body.email || !req.body.password) {
+        res.status(400).json({ mess: "Champs obligatoires : email et password" })
+        return
+    }
+    const user = await getUserByEmail(req.body.email)
+
+    if (!user || user.password != req.body.password) {
+        res.status(403).json({ mess: "utilisateur ou mot de passe incorrect" })
+        return
+    }
+    const roles = await getUserRoleByEmail(user.email);
+
+    var token = jwt.sign({ ...user,roles }, '4561gfd');
+
+    res.json({ token, roles })
+}
+
+module.exports = { getAllUser,connectUser, addUserC }
